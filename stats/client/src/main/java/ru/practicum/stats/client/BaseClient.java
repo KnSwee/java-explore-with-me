@@ -1,9 +1,11 @@
 package ru.practicum.stats.client;
 
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.lang.Nullable;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import ru.practicum.stats.dto.model.ViewStatsDto;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +17,8 @@ public class BaseClient {
         this.restTemplate = restTemplate;
     }
 
-    protected ResponseEntity<Object> get(String path, @Nullable Map<String, Object> params) {
-        return makeAndSendRequest(HttpMethod.GET, path, params, null);
+    protected ResponseEntity<Object> get(String path, @Nullable Map<String, Object> parameters) {
+        return makeAndSendRequest(HttpMethod.GET, path, parameters, null);
     }
 
     protected <T> ResponseEntity<Object> post(String path, @Nullable Map<String, Object> params, T body) {
@@ -44,6 +46,25 @@ public class BaseClient {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsByteArray());
         }
         return prepareGatewayResponse(statsServerResponse);
+    }
+
+    private <T> List<ViewStatsDto> makeAndSendViewStatsRequest(HttpMethod method, String path, @Nullable Map<String, Object> parameters, @Nullable T body) {
+        HttpEntity<T> requestEntity = new HttpEntity<>(body, defaultHeaders());
+
+        ParameterizedTypeReference<List<ViewStatsDto>> typeReference = new ParameterizedTypeReference<>() {
+        };
+
+        ResponseEntity<List<ViewStatsDto>> ewmServerResponse;
+        try {
+            if (parameters != null) {
+                ewmServerResponse = restTemplate.exchange(path, method, requestEntity, typeReference, parameters);
+            } else {
+                ewmServerResponse = restTemplate.exchange(path, method, requestEntity, typeReference);
+            }
+        } catch (HttpStatusCodeException e) {
+            return null;
+        }
+        return ewmServerResponse.getBody();
     }
 
     private static ResponseEntity<Object> prepareGatewayResponse(ResponseEntity<Object> response) {

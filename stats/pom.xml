@@ -18,7 +18,7 @@
     <modules>
         <module>stats-dto</module>
         <module>client</module>
-        <module>service</module>
+        <module>server</module>
     </modules>
 
     <properties>
