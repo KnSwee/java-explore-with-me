@@ -20,6 +20,6 @@ public class UpdateCompilationDto {
 
     @NotBlankAnnotation
     @Length(min = 1, max = 50)
-    String title;
+    private String title;
 
 }

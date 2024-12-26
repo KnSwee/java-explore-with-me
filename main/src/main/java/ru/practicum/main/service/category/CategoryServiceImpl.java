@@ -56,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryDtoMapper.toCategoryDto(updatedCategory);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<CategoryDto> getCategories(Integer from, Integer size) {
         PageRequest page = PageRequest.of(from / size, size, Sort.by("id").ascending());
@@ -63,6 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryDtoMapper.toCategoryDto(categories);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public CategoryDto getCategory(Long catId) {
         Category category = categoryRepository.findById(catId)
