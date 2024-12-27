@@ -23,6 +23,7 @@ import java.util.List;
 public class EventPrivateController {
     private final EventService eventService;
 
+    // * Получение событий, добавленных текущим пользователем
     @GetMapping
     public List<EventShortDto> getPrivateEvents(@PathVariable(name = "userId") Long userId,
                                                 @RequestParam(name = "from", defaultValue = "0") @PositiveOrZero Integer from,
