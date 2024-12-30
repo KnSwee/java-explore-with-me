@@ -37,4 +37,13 @@ public class ErrorHandler {
                 ex.getMessage());
     }
 
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorResponse handleForbiddenException(final ForbiddenException ex) {
+        log.error("403 FORBIDDEN {}", ex.getMessage());
+        return new ErrorResponse(HttpStatus.FORBIDDEN.toString(),
+                "Access denied",
+                ex.getMessage());
+    }
+
 }

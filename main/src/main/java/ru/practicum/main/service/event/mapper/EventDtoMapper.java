@@ -129,4 +129,23 @@ public class EventDtoMapper {
         return event;
     }
 
+    public static Event toEvent(EventFullDto eventDto) {
+        Event event = new Event();
+        event.setId(eventDto.getId());
+        event.setAnnotation(eventDto.getAnnotation());
+        event.setCategory(CategoryDtoMapper.toCategory(eventDto.getCategory()));
+        event.setConfirmedRequests(eventDto.getConfirmedRequests());
+        event.setCreatedOn(LocalDateTime.parse(eventDto.getCreatedOn(), TIME_FORMATTER));
+        event.setDescription(eventDto.getDescription());
+        event.setEventDate(LocalDateTime.parse(eventDto.getEventDate(), TIME_FORMATTER));
+        event.setInitiator(UserDtoMapper.toUser(eventDto.getInitiator()));
+        event.setLatitude(eventDto.getLocation().getLat());
+        event.setLongitude(eventDto.getLocation().getLon());
+        event.setPaid(eventDto.getPaid());
+        event.setParticipantLimit(eventDto.getParticipantLimit());
+        event.setRequestModeration(eventDto.getRequestModeration());
+        event.setState(State.valueOf(eventDto.getState()));
+        event.setTitle(eventDto.getTitle());
+        return event;
+    }
 }
