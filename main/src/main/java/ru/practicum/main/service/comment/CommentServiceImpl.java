@@ -2,6 +2,7 @@ package ru.practicum.main.service.comment;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.main.dto.comment.CommentDto;
 import ru.practicum.main.dto.comment.CreateCommentDto;
 import ru.practicum.main.exception.BadRequestException;
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository commentRepository;
